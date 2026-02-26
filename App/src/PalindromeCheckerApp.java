@@ -1,48 +1,38 @@
-/**
- * =========================================================
- * MAIN CLASS - UseCase5PalindromeCheckerApp
- * =========================================================
- *
- * Use Case 5: Stack Based Palindrome Checker
- *
- * Description:
- * This class validates a palindrome using a Stack
- * data structure which follows the LIFO principle.
- *
- * At this stage, the application:
- * - Pushes characters into a stack
- * - Pops them in reverse order
- * - Compares with original sequence
- * - Displays the result
- *
- * This maps stack behavior to reversal logic.
- *
- * @Bhoomi Developer
- * @version 5.0
- */
-
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        String input = "noon";
+        // Define the input string to validate
+        String input = "civic";
 
+        // Create a queue to store characters in FIFO order
+        Queue<Character> queue = new LinkedList<>();
+
+        // Create a stack to store characters in LIFO order
         Stack<Character> stack = new Stack<>();
 
+        // Insert characters into both data structures
         for (char c : input.toCharArray()) {
-            stack.push(c);
+            queue.add(c);      // Enqueue
+            stack.push(c);     // Push
         }
 
+        // Assume palindrome initially
         boolean isPalindrome = true;
 
-        for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
+        // Compare dequeue (FIFO) with pop (LIFO)
+        while (!queue.isEmpty()) {
+            if (!queue.remove().equals(stack.pop())) {
                 isPalindrome = false;
                 break;
             }
         }
+
+        // Display result
         System.out.println("Input : " + input);
         System.out.println("Is Palindrome? : " + isPalindrome);
     }
