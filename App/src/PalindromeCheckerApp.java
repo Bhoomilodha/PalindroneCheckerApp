@@ -1,32 +1,31 @@
 /**
  * ============================================================
- * MAIN CLASS – UseCase7PalindromeCheckerApp
+ * MAIN CLASS – UseCase10PalindromeCheckerApp
  * ============================================================
  *
- * Use Case 7: Deque-Based Optimized Palindrome Checker
+ * Use Case 10: Case-Insensitive & Space-Ignored Palindrome
  *
  * Description:
  * This class validates whether a string is a palindrome
- * using a Deque (Double Ended Queue).
+ * by ignoring spaces and letter case.
  *
- * Characters are inserted into the deque and then
- * compared by removing elements from both the front
- * and rear until the deque becomes empty or a mismatch
- * is found.
+ * The input string is first normalized by:
+ * - Removing spaces using regular expressions
+ * - Converting all characters to lowercase
+ *
+ * Then symmetric characters are compared from both ends.
  *
  * Key Concepts:
- * - Deque (Double Ended Queue)
- * - Front and Rear Access
- * - Optimized Data Handling
+ * - String Preprocessing
+ * - Regular Expressions
+ * - Symmetric Character Comparison
  *
- * Data Structure: Deque
+ * Data Structure: String / Array
  *
  * @bhoomi Developer
- * @version 7.0
+ * @version 10.0
  */
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Scanner;
 
 public class PalindromeCheckerApp {
@@ -38,19 +37,17 @@ public class PalindromeCheckerApp {
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        Deque<Character> deque = new ArrayDeque<>();
-
-        for (char c : input.toCharArray()) {
-            deque.addLast(c);
-        }
+        // Normalize string: remove spaces and convert to lowercase
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
         boolean isPalindrome = true;
 
-        while (deque.size() > 1) {
-            char front = deque.removeFirst();
-            char rear = deque.removeLast();
+        // Compare characters from both ends
+        for (int i = 0; i < normalized.length() / 2; i++) {
 
-            if (front != rear) {
+            // Compare symmetric characters
+            if (normalized.charAt(i) !=
+                    normalized.charAt(normalized.length() - 1 - i)) {
                 isPalindrome = false;
                 break;
             }
