@@ -1,39 +1,63 @@
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.Stack;
+/**
+ * ============================================================
+ * MAIN CLASS – UseCase9PalindromeCheckerApp
+ * ============================================================
+ *
+ * Use Case 9: Recursive Palindrome Checker
+ *
+ * Description:
+ * This class checks whether a string is a palindrome
+ * using recursion.
+ *
+ * The recursive method compares characters from the
+ * start and end positions and moves inward until the
+ * base condition is met.
+ *
+ * Key Concepts:
+ * - Recursion
+ * - Base Condition
+ * - Call Stack
+ *
+ * Data Structure: Call Stack
+ *
+ * @bhoomi Developer
+ * @version 9.0
+ */
+
+import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
+    public static boolean isPalindromeRecursive(String str, int start, int end) {
+
+        if (start >= end) {
+            return true;
+        }
+
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
+        }
+
+        return isPalindromeRecursive(str, start + 1, end - 1);
+    }
+
     public static void main(String[] args) {
 
-        // Define the input string to validate
-        String input = "civic";
+        Scanner scanner = new Scanner(System.in);
 
-        // Create a queue to store characters in FIFO order
-        Queue<Character> queue = new LinkedList<>();
+        System.out.print("Input : ");
+        String input = scanner.nextLine();
 
-        // Create a stack to store characters in LIFO order
-        Stack<Character> stack = new Stack<>();
+        boolean result;
 
-        // Insert characters into both data structures
-        for (char c : input.toCharArray()) {
-            queue.add(c);      // Enqueue
-            stack.push(c);     // Push
+        if (input == null || input.length() <= 1) {
+            result = true;
+        } else {
+            result = isPalindromeRecursive(input, 0, input.length() - 1);
         }
 
-        // Assume palindrome initially
-        boolean isPalindrome = true;
+        System.out.println("Is Palindrome? : " + result);
 
-        // Compare dequeue (FIFO) with pop (LIFO)
-        while (!queue.isEmpty()) {
-            if (!queue.remove().equals(stack.pop())) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        // Display result
-        System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        scanner.close();
     }
 }
