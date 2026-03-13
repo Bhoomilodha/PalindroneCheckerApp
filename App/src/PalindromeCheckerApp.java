@@ -1,60 +1,73 @@
+import java.util.Scanner;   // Needed for user input
+import java.util.Stack;     // Needed for stack-based palindrome check
+
 /**
  * ============================================================
- * MAIN CLASS – UseCase10PalindromeCheckerApp
+ * MAIN CLASS - UseCase11PalindromeCheckerApp
  * ============================================================
  *
- * Use Case 10: Case-Insensitive & Space-Ignored Palindrome
+ * Use Case 11: Object-Oriented Palindrome Service
  *
- * Description:
- * This class validates whether a string is a palindrome
- * by ignoring spaces and letter case.
+ * Demonstrates palindrome validation using OOPS principles:
+ * - Encapsulation
+ * - Single Responsibility Principle
+ * - Data Structures (Stack / Array)
  *
- * The input string is first normalized by:
- * - Removing spaces using regular expressions
- * - Converting all characters to lowercase
- *
- * Then symmetric characters are compared from both ends.
- *
- * Key Concepts:
- * - String Preprocessing
- * - Regular Expressions
- * - Symmetric Character Comparison
- *
- * Data Structure: String / Array
- *
- * @bhoomi Developer
- * @version 10.0
+ * @author Bhoomi
+ * @version 11.0
  */
-
-import java.util.Scanner;
-
 public class PalindromeCheckerApp {
-
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        PalindromeService service = new PalindromeService();
 
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a string to check palindrome:");
+        String input = sc.nextLine();
 
-        System.out.print("Input : ");
-        String input = scanner.nextLine();
+        // Choose which method to use
+        boolean resultStack = service.checkPalindromeStack(input);
+        boolean resultArray = service.checkPalindromeArray(input);
 
-        // Normalize string: remove spaces and convert to lowercase
+        System.out.println("\nUsing Stack Approach:");
+        System.out.println("Is Palindrome? : " + resultStack);
+
+        System.out.println("\nUsing Two-Pointer Array Approach:");
+        System.out.println("Is Palindrome? : " + resultArray);
+
+        sc.close();
+    }
+}
+class PalindromeService {
+
+    public boolean checkPalindromeStack(String input) {
         String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        boolean isPalindrome = true;
-
-        // Compare characters from both ends
-        for (int i = 0; i < normalized.length() / 2; i++) {
-
-            // Compare symmetric characters
-            if (normalized.charAt(i) !=
-                    normalized.charAt(normalized.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
+        Stack<Character> stack = new Stack<>();
+        for (char c : normalized.toCharArray()) {
+            stack.push(c);
         }
 
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        StringBuilder reversed = new StringBuilder();
+        while (!stack.isEmpty()) {
+            reversed.append(stack.pop());
+        }
 
-        scanner.close();
+        return normalized.equals(reversed.toString());
+    }
+
+    public boolean checkPalindromeArray(String input) {
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+
+        int start = 0;
+        int end = normalized.length() - 1;
+
+        while (start < end) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
     }
 }
